@@ -1,0 +1,51 @@
+{% extends "base.html" %} 
+{% load crispy_forms_tags %} 
+{% block content %}
+<div  style="width: 50%; margin: auto"> 
+<h1 class="my-3">Welcome to {{ book.title }} details page</h1>
+<div >
+  <img src="{{ book.image.url }}" alt="{{ book.title }}" width="100%" />
+  <p class="my-2">{{ book.description }}</p>
+  <p>Borrowing Price: {{ book.borrowing_price }} Taka</p>
+</div>
+<div>
+  <form class="mb-5" method="post" action="{% url 'borrow-book' book.id %}">
+    {% csrf_token %}
+    <button class="btn btn-primary" type="submit">Borrow Here</button>
+  </form>
+</div>
+<div>
+  <hr />
+  <h3 class="mt-5">Reviews</h3>
+  <ul>
+    {% for review in reviews %}
+    <li>
+      <p>{{ review.review_text }}</p>
+      <p>Reviewed by {{ review.user.username }} on {{ review.created_at }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+<div>
+  {% if can_review %}
+  <h3>Write a Review</h3>
+  <form method="post">
+    {% csrf_token %} 
+    {% if form.non_field_errors %} 
+    {% for er in form.non_field_errors %}
+    <p class="bg-danger text-white p-3">{{er}}</p>
+    {% endfor %} {% endif %}
+    <!-- {{form | crispy }} -->
+    {% for fm in form%}
+     {{fm.label_tag}} {{fm}} 
+     {{fm.errors|striptags}} 
+     {%endfor %}
+     
+    <button class="btn btn-warning mt-2">Submit Review</button>
+  </form>
+  {% else %}
+     <p >You must borrow and return this book before reviewing it.</p>
+   {% endif %}
+</div>
+</div>
+{% endblock %}

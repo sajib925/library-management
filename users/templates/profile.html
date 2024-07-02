@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+<div style="width: 50%; margin: 50px auto;">
+  <h1 class='mb-3'>User Profile</h1>
+  <div class="card">
+    <div class="card-body">
+        <p><strong>Username:</strong> {{ request.user.username }}</p>
+        <p><strong>Email:</strong> {{ request.user.email }}</p>
+        <p><strong>Balance:</strong> {{ profile.balance }} Taka</p>
+    </div>
+  </div>
+
+  <h3 class='my-3'>Borrow History</h3>
+  <h4>{{borrowings|length }} results found</h4>
+
+
+
+  <ul class="list-group">
+    {% for borrowing in borrowings %}
+        <li class="list-group-item d-flex align-items-center justify-content-between">
+          <div>
+            <img src="{{ borrowing.book.image.url }}" alt="{{ borrowing.book.title }}" class="img-thumbnail" style="width: 50px; height: auto;">
+            <h5 class="my-2">Title: {{ borrowing.book.title }}</h5>
+            {% if borrowing.returned_at %}
+          <p>Returned At: {{ borrowing.returned_at }}</p>
+        {% else %}
+        <p >Borrowed At: {{ borrowing.borrowed_at }}</p>
+        {% endif %}
+          </div>
+          <div>
+            {% if borrowing.returned_at %}
+            <button  class="btn btn-success" disabled>Already Returned</button>
+        {% else %}
+          <form method="post" action="{% url 'return-book' borrowing.id %}">
+            {% csrf_token %}
+            <button class="btn btn-secondary">Return Book</button>
+          </form>
+        {% endif %}
+          </div>
+        </li>
+    {% endfor %}
+</ul>
+</div>
+
+
+{% endblock %}

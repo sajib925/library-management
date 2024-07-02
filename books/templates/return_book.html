@@ -1,0 +1,18 @@
+
+    
+    {% extends "base.html" %}
+    {%  load crispy_forms_tags %} 
+    {% block content %}
+    <h1>Return Book: {{ borrowing.book.title }}</h1>
+    
+    <p>Are you sure you want to return this book?</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirm Return</button>
+    </form>
+    
+    <a href="{% url 'borrow-history' %}">Cancel and Go Back to Borrow History</a>
+
+    {% endblock %}
+    

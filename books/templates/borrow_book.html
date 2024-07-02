@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Borrow Book</h2>
+  <div>
+    <h3>{{ book.title }}</h3>
+    <p>{{ book.description }}</p>
+    <img src="{{ book.image.url }}" alt="{{ book.title }}" width="100">
+    <p>Borrowing Price: {{ book.borrowing_price }} Taka</p>
+  </div>
+  <div>
+    {% if error %}
+      <p>{{ error }}</p>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit">Borrow</button>
+    </form>
+  </div>
+{% endblock %}
