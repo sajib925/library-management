@@ -10,6 +10,7 @@ from decimal import Decimal
 from django.core.mail import send_mail
 from decimal import Decimal
 from books.models import Borrowing
+from .models import Profile
 
 
 
@@ -48,7 +49,7 @@ class UserLoginView(LoginView):
 
 @login_required
 def profile(request):
-    profile = request.user.profile
+    profile, created = Profile.objects.get_or_create(user=request.user)
     borrowings = Borrowing.objects.filter(user=request.user)
     return render(request, 'profile.html', {'profile': profile,'borrowings': borrowings})
 
@@ -60,7 +61,7 @@ def deposit(request):
         try:
             amount = Decimal(amount_str)
             if amount > 0:
-                profile = request.user.profile
+                profile, created = Profile.objects.get_or_create(user=request.user)
                 profile.balance += amount
                 profile.save()
                 messages.success(request, f'Deposit of {amount} successfully added to your account')
