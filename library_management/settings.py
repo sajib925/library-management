@@ -83,21 +83,21 @@ WSGI_APPLICATION = 'library_management.wsgi.application'
 
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
-
 DATABASES = {
-    'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://library_4bqu_user:YApyclPovVOAkgcKn6Exwp668BMSOnHF@dpg-cq24qqdumphs73e92rl0-a.oregon-postgres.render.com/library_4bqu',
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         # Replace this value with your local database's connection string.
+#         default='postgresql://library_4bqu_user:YApyclPovVOAkgcKn6Exwp668BMSOnHF@dpg-cq24qqdumphs73e92rl0-a.oregon-postgres.render.com/library_4bqu',
+#     )
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
